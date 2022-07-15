@@ -26,7 +26,6 @@ export class ProductResolver {
   @Query(() => [Product])
   async getProducts(
     @Args('isNew') isNew: boolean,
-    // @Args('range') range: Array<number>,
     @Args('rangeMin') rangeMin: number,
     @Args('rangeMax') rangeMax: number,
   ) {
