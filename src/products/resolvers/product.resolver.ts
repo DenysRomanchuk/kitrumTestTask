@@ -20,16 +20,20 @@ export class ProductResolver {
 
   @Mutation(() => Number)
   async removeProduct(@Args('id') id: DeleteProductInput): Promise<number> {
-    console.log('resolver', id);
     return await this.productService.removeProduct(id);
   }
 
   @Query(() => [Product])
   async getProducts(
     @Args('isNew') isNew: boolean,
+    // @Args('range') range: Array<number>,
     @Args('rangeMin') rangeMin: number,
     @Args('rangeMax') rangeMax: number,
   ) {
-    return await this.productService.getProducts({ isNew, rangeMin, rangeMax });
+    return await this.productService.getProducts({
+      isNew,
+      rangeMin,
+      rangeMax,
+    });
   }
 }

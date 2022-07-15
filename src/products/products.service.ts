@@ -16,12 +16,11 @@ export class ProductsService {
     return now < product_date;
   }
 
-  private filteredProduct({
-    isNew,
-    rangeMin,
-    rangeMax,
-    products,
-  }): ProductEntity[] {
+  private filteredProduct(
+    products: ProductEntity[],
+    options: ProductFilterType,
+  ): ProductEntity[] {
+    const { rangeMin, rangeMax, isNew } = options;
     return products
       .filter(
         (product) =>
@@ -46,9 +45,8 @@ export class ProductsService {
 
   async getProducts(options: ProductFilterType): Promise<ProductEntity[]> {
     const products = await this.productRepository.find({});
-    return this.filteredProduct({
-      products,
-      ...options,
+    return this.filteredProduct(products, {
+      ...(options as ProductFilterType),
     });
   }
 }
