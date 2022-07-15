@@ -34,13 +34,13 @@ export class ProductsService {
   async createProduct(
     createProductInput: CreateProductInput,
   ): Promise<ProductEntity> {
-    return await this.productRepository.save({
+    return this.productRepository.save({
       ...createProductInput,
     });
   }
 
   async removeProduct(id: DeleteProductInput): Promise<number> {
-    return await this.productRepository.delete(id);
+    return this.productRepository.delete(id);
   }
 
   async getProducts(options: ProductFilterType): Promise<ProductEntity[]> {

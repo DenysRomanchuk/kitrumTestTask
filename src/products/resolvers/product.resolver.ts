@@ -13,14 +13,14 @@ export class ProductResolver {
   async createProduct(
     @Args('createProduct') createProductInput: CreateProductInput,
   ): Promise<ProductEntity> {
-    return await this.productService.createProduct({
+    return this.productService.createProduct({
       ...createProductInput,
     });
   }
 
   @Mutation(() => Number)
   async removeProduct(@Args('id') id: DeleteProductInput): Promise<number> {
-    return await this.productService.removeProduct(id);
+    return this.productService.removeProduct(id);
   }
 
   @Query(() => [Product])
@@ -29,7 +29,7 @@ export class ProductResolver {
     @Args('rangeMin') rangeMin: number,
     @Args('rangeMax') rangeMax: number,
   ) {
-    return await this.productService.getProducts({
+    return this.productService.getProducts({
       isNew,
       rangeMin,
       rangeMax,
