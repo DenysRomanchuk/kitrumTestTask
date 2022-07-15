@@ -5,7 +5,7 @@ import { CreateProductInput } from './../inputs/create-product.input';
 
 @Injectable()
 export class ProductRepository {
-  protected products = [
+  protected products: ProductEntity[] = [
     {
       id: 1,
       price: 100,
@@ -26,26 +26,27 @@ export class ProductRepository {
     },
   ];
 
-  private calculateId() {
+  private calculateId(): number {
     const ids = this.products.map((product) => product.id);
     return Math.max.apply(null, ids) + 1;
   }
 
-  async save(createProductInput: CreateProductInput) {
+  async save(createProductInput: CreateProductInput): Promise<ProductEntity> {
     const newProduct: ProductEntity = {
       id: this.calculateId(),
       createdAt: moment().toISOString(),
       ...createProductInput,
     };
-    return this.products[this.products.push(newProduct) - 1];
+    this.products.push(newProduct);
+    return newProduct;
   }
 
-  async delete(id) {
-    this.products.filter((product) => product.id !== id);
+  async delete({ id }): Promise<number> {
+    this.products = this.products.filter((product) => product.id !== id);
     return id;
   }
 
-  async find({}) {
+  async find({}): Promise<ProductEntity[]> {
     return this.products;
   }
 }

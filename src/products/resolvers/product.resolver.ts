@@ -1,6 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProductEntity } from '../entity/product.entity';
 import { CreateProductInput } from '../inputs/create-product.input';
+import { DeleteProductInput } from '../inputs/delete-product.input';
 import { Product } from '../models/product.model';
 import { ProductsService } from './../products.service';
 
@@ -18,7 +19,8 @@ export class ProductResolver {
   }
 
   @Mutation(() => Number)
-  async removeUser(@Args('id') id: number): Promise<number> {
+  async removeProduct(@Args('id') id: DeleteProductInput): Promise<number> {
+    console.log('resolver', id);
     return await this.productService.removeProduct(id);
   }
 

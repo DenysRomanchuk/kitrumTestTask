@@ -7,9 +7,13 @@ input CreateProductInput {
   title: String
 }
 
+input DeleteProductInput {
+  id: Float!
+}
+
 type Mutation {
   createProduct(createProduct: CreateProductInput!): Product!
-  removeUser(id: Float!): Float!
+  removeProduct(id: DeleteProductInput!): Float!
 }
 
 type Product {

@@ -2,20 +2,26 @@ import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
 import { ProductEntity } from './entity/product.entity';
 import { CreateProductInput } from './inputs/create-product.input';
+import { DeleteProductInput } from './inputs/delete-product.input';
 import { ProductRepository } from './repository/product.repository';
-import { ProductFilterType } from './Types/product.type';
+import { ProductFilterType } from './types/product.type';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  protected checkDate({ createdAt }) {
+  protected checkDate({ createdAt }): boolean {
     const now = moment().subtract(15, 'minutes');
     const product_date = moment(createdAt);
     return now < product_date;
   }
 
-  private filteredProduct({ isNew, rangeMin, rangeMax, products }) {
+  private filteredProduct({
+    isNew,
+    rangeMin,
+    rangeMax,
+    products,
+  }): ProductEntity[] {
     return products
       .filter(
         (product) =>
@@ -34,12 +40,11 @@ export class ProductsService {
     });
   }
 
-  async removeProduct(id: number): Promise<number> {
-    await this.productRepository.delete({ id });
-    return id;
+  async removeProduct(id: DeleteProductInput): Promise<number> {
+    return await this.productRepository.delete(id);
   }
 
-  async getProducts(options: ProductFilterType) {
+  async getProducts(options: ProductFilterType): Promise<ProductEntity[]> {
     const products = await this.productRepository.find({});
     return this.filteredProduct({
       products,
